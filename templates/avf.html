@@ -1,1 +1,46 @@
 
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ربات تشخیص چهره</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f0f0; }
+        #video { border: 2px solid #333; margin: 20px; }
+        form { margin: 20px; display: none; } /* Initially hidden */
+        input[type="text"] { padding: 10px; font-size: 16px; width: 200px; }
+        button { padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .message { color: #333; font-size: 18px; margin: 10px; }
+        #status { color: #ff0000; font-weight: bold; } /* For pending new face */
+    </style>
+</head>
+<body>
+    <h1>ربات هوشمند تشخیص چهره</h1>
+    <div class="message">دوربین را به سمت چهره بگیرید...</div>
+    <div id="status"></div>
+    <img src="{{ url_for('video_feed') }}" id="video" width="640" height="480" alt="Video Feed">
+    
+    <form id="nameForm" action="{{ url_for('add_name') }}" method="post">
+        <label for="name">نام فرد جدید:</label><br>
+        <input type="text" id="name" name="name" placeholder="نام را وارد کنید" required>
+        <button type="submit">ثبت نام</button>
+    </form>
+    
+    <script>
+        const form = document.getElementById('nameForm');
+        const statusDiv = document.getElementById('status');
+        const video = document.getElementById('video');
+        
+        setInterval(() => {
+            form.style.display = 'block';
+            statusDiv.textContent = '';
+        }, 5000);
+        
+        video.addEventListener('load', () => {
+            form.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
